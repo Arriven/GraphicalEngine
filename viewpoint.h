@@ -13,6 +13,8 @@
 #define GLEW_STATIC
 #include <GL/glew.h>
 
+GLfloat PI = glm::radians(180.f);
+
 class viewPoint{
 public:
     viewPoint(Shader* _shader, GLuint _width, GLuint _height){
@@ -47,6 +49,24 @@ public:
         target->DrawModel(this->shader);
     }
 
+    void move(glm::vec3 direction){
+        this->position += direction;
+        this->refreshMatrixes();
+    }
+
+    void rotate(glm::vec3 _eulers){
+        this->eulers+=_eulers;
+        this->refreshMatrixes();
+    }
+
+    glm::vec3 getPosition(){
+        return position;
+    }
+
+    glm::vec3 getEulers(){
+        return eulers;
+    }
+
 private:
     Shader* shader;
     GLuint viewLocation;
@@ -59,7 +79,16 @@ private:
     GLfloat cameraDistance;
     GLuint width,height;
     void refreshMatrixes(){
-        glm::vec3 cameraTarget(cameraDistance*glm::sin(eulers.x)*glm::cos(eulers.y),
+        while(eulers.x>2*PI)eulers.x-=2*PI;
+        while(eulers.x<0)eulers.x+=2*PI;
+
+        if(eulers.y>PI/2-0.05)eulers.y=PI/2-0.05;
+        if(eulers.y<-PI/2+0.05)eulers.y=-PI/2+0.05;
+
+        while(eulers.z>2*PI)eulers.z-=2*PI;
+        while(eulers.z<0)eulers.z+=2*PI;
+
+        glm::vec3 cameraTarget(-cameraDistance*glm::sin(eulers.x)*glm::cos(eulers.y),
                                cameraDistance*glm::sin(eulers.y),
                                cameraDistance*glm::cos(eulers.x)*glm::cos(eulers.y));
         this->view = glm::lookAt(this->position,this->position+cameraTarget,glm::vec3(0,1,0));

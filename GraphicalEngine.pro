@@ -33,7 +33,8 @@ else:unix: PRE_TARGETDEPS += $$PWD/../External_Libs/GLEW/libGLEW.a
 HEADERS += \
     shader.h \
     model.h \
-    viewpoint.h
+    viewpoint.h \
+    interface.h
 
 
 unix|win32: LIBS += -lfreeimage
