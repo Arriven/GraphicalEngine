@@ -18,7 +18,6 @@
 #define GLEW_STATIC
 #include <GL/glew.h>
 
-#include <SOIL/SOIL.h>
 #include <FreeImage.h>
 
 class model{

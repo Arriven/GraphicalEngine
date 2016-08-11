@@ -7,8 +7,6 @@
 // GLFW
 #include <GLFW/glfw3.h>
 
-// Other Libs
-#include<SOIL/SOIL.h>
 
 // Other includes
 #include "shader.h"
