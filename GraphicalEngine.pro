@@ -19,9 +19,12 @@ HEADERS += \
     shader.h \
     model.h \
     viewpoint.h \
-    interface.h
+    interface.h \
+    customgltemplates.h
 
 
 unix|win32: LIBS += -lfreeimage
 
 unix|win32: LIBS += -lGLEW
+
+unix|win32: LIBS += -lassimp

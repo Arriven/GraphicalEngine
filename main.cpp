@@ -25,20 +25,15 @@ const GLuint WIDTH = 800, HEIGHT = 600;
 Shader* mainShader;
 viewPoint* mainCam;
 const GLuint modelsCount = 1;
-model* mainModel;
-model* secondModel;
+model* nanosuit;
 
 GLFWwindow* window;
 
 void initialize(){
-    mainModel = new model("/home/arriven/projects/build-GraphicalEngine-Desktop-Debug/african_head.obj",
-                      "/home/arriven/projects/build-GraphicalEngine-Desktop-Debug/african_head_diffuse.tga");
+    nanosuit = new model("/home/arriven/projects/GraphicalEngine/build-GraphicalEngine-Desktop-Debug/nanosuit/nanosuit.obj");
 
-    secondModel = new model("/home/arriven/projects/build-GraphicalEngine-Desktop-Debug/african_head.obj",
-                            "/home/arriven/projects/build-GraphicalEngine-Desktop-Debug/african_head_diffuse.tga");
-
-    mainShader = new Shader("/home/arriven/projects/build-GraphicalEngine-Desktop-Debug/vertex-shader.vs",
-                        "/home/arriven/projects/build-GraphicalEngine-Desktop-Debug/fragment-shader.frag");
+    mainShader = new Shader("/home/arriven/projects/GraphicalEngine/build-GraphicalEngine-Desktop-Debug/vertex-shader.vs",
+                        "/home/arriven/projects/GraphicalEngine/build-GraphicalEngine-Desktop-Debug/fragment-shader.frag");
 
     mainCam = new viewPoint(mainShader,WIDTH,HEIGHT);
     mainCam->SetCamera(glm::vec3(0,0,-3),glm::vec3(0,0,0));
@@ -47,6 +42,7 @@ void initialize(){
 int main(){
     window = initializeInterface(WIDTH,HEIGHT);
     initialize();
+    std::cout<<"init"<<std::endl;
     while(!glfwWindowShouldClose(window)){
         glfwPollEvents();
         doMovement(mainCam);
@@ -55,18 +51,18 @@ int main(){
         //mainCam->SetCamera(glm::vec3(0,0,glm::sin(glfwGetTime())),glm::vec3(0,0,0));
 
         //game logic
-        secondModel->setPosition(glm::vec3(2,0,3),glm::vec3(0,glm::radians(90.f)-glfwGetTime(),0));
-        mainModel->setPosition(glm::vec3(-2,0,3),glm::vec3(glfwGetTime(),0,0));
+        nanosuit->setPosition(glm::vec3(0,0,0),glm::vec3(0,0,0));
 
         mainCam->UseCamera();
 
         //drawing
-        mainCam->drawModel(mainModel);
-        mainCam->drawModel(secondModel);
+        mainCam->drawModel(nanosuit);
 
         glfwSwapBuffers(window);
+        std::cout<<"frame"<<std::endl;
     }
-    delete mainModel;
+    delete nanosuit;
     glfwTerminate();
+    std::cout<<"succes"<<std::endl;
     return 0;
 }
