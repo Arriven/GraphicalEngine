@@ -99,6 +99,7 @@ private:
     }
     std::vector<GLuint> loadMaterialTextures(aiMaterial* mat, aiTextureType type, std::string directory)
     {
+        std::cout<<"loading texture"<<std::endl;
         std::vector<GLuint> textures;
         for(GLuint i = 0; i < mat->GetTextureCount(type); i++)
         {
@@ -137,7 +138,6 @@ private:
 
 
                 this->vertices.push_back(vertex);
-                this->setupMesh();
             }
 
         for(GLuint i = 0; i < aiMesh->mNumFaces; i++)
@@ -153,13 +153,14 @@ private:
                 this->diffuse_textures=loadMaterialTextures(material,aiTextureType_DIFFUSE,directory);
                 this->specular_textures=loadMaterialTextures(material,aiTextureType_SPECULAR,directory);
             }
+        this->setupMesh();
     }
 };
 
 class model{
 public:
     glm::mat4 _model;
-    model(GLchar* path){
+    model(std::string path){
         this->loadModel(path);
     }
     void setPosition(glm::vec3 position, glm::vec3 eulers){
@@ -180,6 +181,7 @@ private:
     std::vector<mesh> meshes;
     std::string directory;
     void loadModel(std::string path){
+        std::cout<<path<<std::endl;
         Assimp::Importer import;
         const aiScene* scene = import.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs);
 
@@ -194,9 +196,11 @@ private:
     }
     void processNode(aiNode* node, const aiScene* scene)
     {
+        std::cout<<"processing node"<<std::endl;
         // Process all the node's meshes (if any)
         for(GLuint i = 0; i < node->mNumMeshes; i++)
         {
+            std::cout<<"processing mesh"<<std::endl;
             aiMesh* aimesh = scene->mMeshes[node->mMeshes[i]];
             this->meshes.push_back(mesh(aimesh, scene,this->directory));
         }

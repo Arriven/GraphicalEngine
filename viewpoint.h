@@ -19,7 +19,7 @@ class viewPoint{
 public:
     viewPoint(Shader* _shader, GLuint _width, GLuint _height){
         this->shader = _shader;
-        this->clearColor=glm::vec4(1,1,1,1);
+        this->clearColor=glm::vec4(0.5f,0.5f,0.5f,1);
         this->position=glm::vec3(0,0,0);
         this->cameraDistance = 1;
         this->width = _width;
