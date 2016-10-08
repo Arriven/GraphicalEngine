@@ -30,14 +30,10 @@ model* nanosuit;
 GLFWwindow* window;
 
 void initialize(){
-    nanosuit = new model("/home/arriven/projects/GraphicalEngine/build-GraphicalEngine-Desktop-Release/nanosuit/nanosuit.obj");
+    nanosuit = new model("nanosuit/nanosuit.obj");
 
-    std::cout<<"model"<<std::endl;
-
-    mainShader = new Shader("/home/arriven/projects/GraphicalEngine/build-GraphicalEngine-Desktop-Debug/vertex-shader.vs",
+    mainShader = new Shader("vertex-shader.vs",
                         "fragment-shader.frag");
-
-    std::cout<<"shader"<<std::endl;
 
     mainCam = new viewPoint(mainShader,WIDTH,HEIGHT);
     mainCam->SetCamera(glm::vec3(0,0,-3),glm::vec3(0,0,0));
@@ -46,7 +42,6 @@ void initialize(){
 int main(){
     window = initializeInterface(WIDTH,HEIGHT);
     initialize();
-    std::cout<<"init"<<std::endl;
     while(!glfwWindowShouldClose(window)){
         //std::cout<<"frame"<<std::endl;
         glfwPollEvents();
@@ -62,12 +57,9 @@ int main(){
 
         //drawing
         mainCam->drawModel(nanosuit);
-        std::cout<<mainCam->getPosition().x<<mainCam->getPosition().y<<mainCam->getPosition().z<<std::endl;
         glfwSwapBuffers(window);
-        //std::cout<<"frame"<<std::endl;
     }
     delete nanosuit;
     glfwTerminate();
-    std::cout<<"succes"<<std::endl;
     return 0;
 }

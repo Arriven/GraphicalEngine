@@ -9,7 +9,11 @@ CONFIG -= app_bundle
 
 TEMPLATE = app
 
-SOURCES += main.cpp
+SOURCES += main.cpp \
+    model.cpp \
+    shader.cpp \
+    viewpoint.cpp \
+    interface.cpp
 
 unix|win32: LIBS += -lGL
 
