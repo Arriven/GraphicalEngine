@@ -19,19 +19,12 @@ class viewPoint{
 public:
     viewPoint(Shader* _shader, GLuint _width, GLuint _height);
     void SetCamera(glm::vec3 position, glm::vec3 eulers);
-
     void UseCamera();
-
     void drawModel(model* target);
-
     void move(glm::vec3 direction);
-
     void rotate(glm::vec3 _eulers);
-
     glm::vec3 getPosition();
-
     glm::vec3 getEulers();
-
 private:
     Shader* shader;
     GLuint viewLocation;

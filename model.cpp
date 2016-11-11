@@ -130,18 +130,44 @@ void mesh::loadMesh(aiMesh* aiMesh, const aiScene* scene, std::string directory)
 model::model(std::string path){
     this->loadModel(path);
 }
-void model::setPosition(glm::vec3 position, glm::vec3 eulers){
-    this->_model = glm::mat4();
-    this->_model = glm::translate(this->_model,position);
-    this->_model = glm::rotate(this->_model,eulers.x,glm::vec3(1,0,0));
-    this->_model = glm::rotate(this->_model,eulers.y,glm::vec3(0,1,0));
-    this->_model = glm::rotate(this->_model,eulers.z,glm::vec3(0,0,1));
+
+const glm::vec3 model::getPosition() const{
+    return this->_eulers;
 }
+
+const glm::vec3 model::getEulers() const{
+    return this->_position;
+}
+
+void model::setPosition(glm::vec3 position, glm::vec3 eulers){
+    this->_position = position;
+    this->_eulers = eulers;
+    this->RefreshMatrix();
+}
+
+void model::move(glm::vec3 direction){
+    this->_position+=direction;
+    this->RefreshMatrix();
+}
+
+void model::rotate(glm::vec3 direction){
+    this->_eulers+=direction;
+    this->RefreshMatrix();
+}
+
 void model::DrawModel(Shader* shader){
     GLuint modelLocation = glGetUniformLocation(shader->Program,"model");
     glUniformMatrix4fv(modelLocation,1,GL_FALSE,glm::value_ptr(this->_model));
     for(GLuint i = 0; i < this->meshes.size(); i++)
             this->meshes[i].Draw(shader);
+}
+
+void model::RefreshMatrix(){
+    this->_model = glm::mat4();
+    this->_model = glm::translate(this->_model,this->_position);
+    this->_model = glm::rotate(this->_model,this->_eulers.x,glm::vec3(1,0,0));
+    this->_model = glm::rotate(this->_model,this->_eulers.y,glm::vec3(0,1,0));
+    this->_model = glm::rotate(this->_model,this->_eulers.z,glm::vec3(0,0,1));
 }
 
 void model::loadModel(std::string path){
